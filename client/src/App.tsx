@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import AllCategory from './Components/AllCategory';
+import Nav from './Components/Nav/Nav';
+import Footer from './Components/Home-Section/Footer/Footer';
+import NotFound from './Components/Home-Section/Not Found/NotFound';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Article from './Components/Article';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Nav />
+        <br />
+        <Routes>
+          <Route path="/" element={<Navigate to="/Hotels" replace />} />
+          <Route path="/#" element={<Navigate to="/Hotels" replace />} />
+          <Route path="/home" element={<Navigate to="/Hotels" replace />} />
+          <Route path="/:cat" element={<AllCategory />} />
+          <Route path="/article/:cat/:Id" element={<Article />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
