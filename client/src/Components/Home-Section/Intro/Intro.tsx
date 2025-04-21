@@ -1,11 +1,7 @@
-import React from "react";
-// import { ArrayofyourTrip } from "../../ArrayOfBlog/ArrayOfBlog";
-// import { Link } from "react-router-dom";
+import React from 'react';
 import './Intro.css';
 
-const Intro = ({ yourTrip }) => {
-
-    // const [yourTrip] =useContext(ArrayofyourTrip)
+const Intro: React.FC = () => {
 
     return (
         <div className="Intro" >
@@ -16,19 +12,7 @@ const Intro = ({ yourTrip }) => {
 
                 <div className='IntroContainer-A'>
                     <div className='IntroContainer-1'>
-                        {/* {yourTrip.filter((value) => (value.ID === '2') && (value.Category === "Advertisement")).map((val, index) => (
-
-                            <Link to={`/article/${val.Category}/${val.ID}`} key={index} >
-                                <img src={val.Image4} className='introImg1' alt="" />
-                                <div className='introContent1'>
-                                    <p className='introTitle1'>{val.Title}</p>
-                                    <p className='introCategory1'>{val.Category} / {val.Date}</p>
-                                </div>
-                            </Link>
-
-                        ))} */}
                         <img
-                            // src='https://rukminim2.flixcart.com/image/850/1000/l3j2cnk0/poster/o/2/e/medium-kedarnath-temple-god-poster-for-worship-room-living-room-original-imagemuskgzt6xjb.jpeg?q=90&crop=false'
                             src='https://m.media-amazon.com/images/I/61UbPgo5-rL.jpg'
                             className='introImg1 CommonImg' alt=""
                         />

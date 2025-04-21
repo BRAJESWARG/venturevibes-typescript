@@ -1,10 +1,10 @@
+// AllCategory.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import HotelSearch from './HotelSearch/HotelSearch';
 
 interface Trip {
-  // Replace these with actual fields in yourTrip
   id: string;
   name: string;
   [key: string]: any;
@@ -13,23 +13,38 @@ interface Trip {
 interface RouteParams {
   Id?: string;
   cat?: string;
-  [key: string]: string | undefined; // <-- this line adds the required index signature
+  [key: string]: string | undefined;
 }
 
 const AllCategory: React.FC = () => {
   const { cat } = useParams<RouteParams>();
-  const [yourTrip, setYourTrip] = useState<Trip[]>([]);
+  const [tripData, setTripData] = useState<Trip[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setLoading(true);
     axios.get('http://localhost:8040/api/v1/VentureVibes')
-      .then(response => setYourTrip(response.data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, [cat]);
+      .then(response => {
+        setTripData(response.data);
+        setError(null);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setError('Failed to load data.');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const renderContent = () => {
+    if (loading) return 'Loading...';
+    if (error) return error;
+
     switch (cat) {
       case 'Hotels':
-        return <HotelSearch yourTrip={yourTrip} />;
+        return <HotelSearch />;
       case 'Flights':
       case 'Trains':
       case 'Bus':

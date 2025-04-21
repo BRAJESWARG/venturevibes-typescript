@@ -2,122 +2,128 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-import "./HotelSearch.css"; // Import the external CSS file
-import ResultPage from "./DisplayPage"; // Import the result page component
+import "./HotelSearch.css";
+import ResultPage from "./DisplayPage";
+import Advertisement from "../Home-Section/Home";
+import BackgroundBG from "../../Assets/header-bg.svg";
 
-import Advertisement from '../Home-Section/Home'
-import BackgroundBG from '../../Assets/header-bg.svg';
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { SelectChangeEvent } from "@mui/material/Select";
 
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { Dayjs } from "dayjs";
 
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+export interface Trip {
+  ID: string;
+  Category: string;
+  CategoryHead: string;
+  [key: string]: any;
+}
 
+export interface SearchResult {
+  city: string;
+  adults: number;
+  children: number;
+  nights: number;
+  days: number;
+  checkIn: string;
+  checkOut: string;
+}
 
-function HotelSearch() {
+interface RouteParams {
+  Id?: string;
+  cat?: string;
+  [key: string]: string | undefined;
+}
 
-  const { cat } = useParams()
+const HotelSearch: React.FC = () => {
+  const { cat } = useParams<RouteParams>();
 
-  const [yourTrip, setYourTrip] = useState([]);
-  console.log(yourTrip);
+  const [yourTrip, setYourTrip] = useState<Trip[]>([]);
+  const [checkIn, setCheckIn] = useState<Dayjs | null>(null);
+  const [checkOut, setCheckOut] = useState<Dayjs | null>(null);
+  const [adults, setAdults] = useState<number>(1);
+  const [children, setChildren] = useState<number>(0);
+  const [city, setCity] = useState<string>("");
+  const [nightStatus, setNightStatus] = useState<{ nights: number }>({ nights: 0 });
+
+  const [result, setResult] = useState<SearchResult | null>(null);
+  const [showResultPage, setShowResultPage] = useState<boolean>(false);
 
   useEffect(() => {
+    axios
+      .get("http://localhost:8040/api/v1/VentureVibes")
+      .then((res) => setYourTrip(res.data))
+      .catch((err) => console.error(err));
+  }, [cat]);
 
-    axios.get(`http://localhost:8040/api/v1/VentureVibes`).then(
-
-      data => setYourTrip(data.data)
-    )
-
-  }, [cat])
-
-  const [checkIn, setCheckIn] = useState();
-  const [checkOut, setCheckOut] = useState();
-  const [adults, setAdults] = useState(1); // Default 1 adult
-  const [children, setChildren] = useState(0); // Default 0 children
-  const [city, setCity] = useState(""); // City/Location input
-  const [nightStatus, setNightStatus] = useState({ nights: 0, days: 0 });
-
-  const [result, setResult] = useState(null); // Result object to pass to ResultPage
-  const [showResultPage, setShowResultPage] = useState(false); // State to toggle between pages
-
-  // Function to get the day of the week from a date
-  const getDayOfWeek = (dateString) => {
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const date = new Date(dateString);
-    return dateString ? days[date.getDay()] : "";
+  const getDayOfWeek = (date: Dayjs | null): string => {
+    if (!date) return "";
+    return date.format("dddd");
   };
 
   useEffect(() => {
-    if (checkIn && checkOut) {
-      const checkInDate = new Date(checkIn);
-      const checkOutDate = new Date(checkOut);
-
-      if (checkOutDate > checkInDate) {
-        const timeDifference = checkOutDate - checkInDate;
-        const nights = timeDifference / (1000 * 60 * 60 * 24);
-        // const days = nights + 1; 
-
-        // setNightStatus({ nights, days });
-        setNightStatus({ nights });
-      } else {
-        setNightStatus({ nights: 0 }); // Reset result if invalid dates are selected
-        alert("Check-out date must be after check-in date.");
-      }
+    if (checkIn && checkOut && checkOut.isAfter(checkIn)) {
+      const nights = checkOut.diff(checkIn, "day");
+      setNightStatus({ nights });
     } else {
-      setNightStatus({ nights: 0 }); // Reset result if dates are cleared
+      setNightStatus({ nights: 0 });
     }
-  }, [checkIn, checkOut]); // Recalculate when checkIn or checkOut changes
+  }, [checkIn, checkOut]);
 
   const handleSearch = () => {
-    if (checkIn && checkOut && city.trim()) {
-      const checkInDate = new Date(checkIn);
-      const checkOutDate = new Date(checkOut);
-
-      if (checkOutDate > checkInDate) {
-        const timeDifference = checkOutDate - checkInDate;
-        const days = timeDifference / (1000 * 60 * 60 * 24); // Convert milliseconds to days
-        const nights = days - 1; // Subtract 1 day for the last day not being a night
-
-        setResult({
-          city,
-          adults,
-          children,
-          nights,
-          days,
-          checkIn,
-          checkOut,
-        });
-        setShowResultPage(true); // Navigate to the result page
-      } else {
-        alert("Check-out date must be after check-in date.");
-      }
-    } else {
+    if (!checkIn || !checkOut || !city.trim()) {
       alert("Please fill out all fields (Check-in, Check-out, and City).");
+      return;
+    }
+
+    if (checkOut.isAfter(checkIn)) {
+      const days = checkOut.diff(checkIn, "day");
+      const nights = days - 1;
+
+      const searchResult: SearchResult = {
+        city,
+        adults,
+        children,
+        nights,
+        days,
+        checkIn: checkIn.toISOString(),
+        checkOut: checkOut.toISOString(),
+      };
+
+      setResult(searchResult);
+      setShowResultPage(true);
+    } else {
+      alert("Check-out date must be after check-in date.");
     }
   };
 
   if (showResultPage && result) {
-    return <ResultPage result={result} />;
+    return <ResultPage result={result} setResult={setResult} />;
   }
 
   return (
     <>
-      <img src={BackgroundBG} className='background-bg' alt="background-bg" />
+      <img src={BackgroundBG} className="background-bg" alt="background" />
       <div className="hotelSearch-container">
-        <div className='CategoryHead'>
-          {yourTrip.filter((value) => (value.ID === '1') && (value.Category === cat)).map((val, index) => (
-            <h2 className='mainCategory' key={index} >
-              {val.CategoryHead}
-            </h2>
-          ))}
+        <div className="CategoryHead">
+          {yourTrip
+            .filter((value) => value.ID === "1" && value.Category === cat)
+            .map((val, index) => (
+              <h2 className="mainCategory" key={index}>
+                {val.CategoryHead}
+              </h2>
+            ))}
         </div>
+
         <div className="container">
           <div className="input-box">
             <div className="input-group">
@@ -128,39 +134,38 @@ function HotelSearch() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Enter Location or city"
+                fullWidth
               />
             </div>
+
             <div className="input-group LocalizationProvider">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker', 'DatePicker']}>
+                <DemoContainer components={["DatePicker", "DatePicker"]}>
                   <DatePicker
                     label="Check-in Date"
-                    type="date"
                     value={checkIn}
-                    onChange={(e) => setCheckIn(e)}
+                    onChange={(date) => setCheckIn(date)}
                   />
-
                   <DatePicker
                     label="Check-out Date"
-                    // defaultValue={dayjs('2022-04-17')}
-                    type="date"
                     value={checkOut}
-                    onChange={(e) => setCheckOut(e)}
+                    onChange={(date) => setCheckOut(date)}
                   />
                 </DemoContainer>
               </LocalizationProvider>
             </div>
+
             <div className="input-group">
               <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Adults</InputLabel>
+                  <InputLabel id="adults-label">Adults</InputLabel>
                   <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId="adults-label"
                     value={adults}
                     label="Adults"
-                    defaultValue="1"
-                    onChange={(e) => setAdults(e.target.value)}
+                    onChange={(e: SelectChangeEvent<number>) =>
+                      setAdults(Number(e.target.value))
+                    }
                   >
                     <MenuItem value={1}>1</MenuItem>
                     <MenuItem value={2}>2</MenuItem>
@@ -169,17 +174,18 @@ function HotelSearch() {
                 </FormControl>
               </Box>
             </div>
+
             <div className="input-group">
               <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Children</InputLabel>
+                  <InputLabel id="children-label">Children</InputLabel>
                   <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId="children-label"
                     value={children}
                     label="Children"
-                    defaultValue="0"
-                    onChange={(e) => setChildren(e.target.value)}
+                    onChange={(e: SelectChangeEvent<number>) =>
+                      setChildren(Number(e.target.value))
+                    }
                   >
                     <MenuItem value={0}>0</MenuItem>
                     <MenuItem value={1}>1</MenuItem>
@@ -189,35 +195,38 @@ function HotelSearch() {
               </Box>
             </div>
           </div>
+
           <div className="extra-section">
-            <Box></Box>
             {checkIn && (
               <Box className="checkIn" component="section">
                 <strong>{getDayOfWeek(checkIn)}</strong>
               </Box>
             )}
             {checkOut && (
-              <Box className="checkOut" component="section" >
+              <Box className="checkOut" component="section">
                 <strong>{getDayOfWeek(checkOut)}</strong>
               </Box>
             )}
             {checkOut && (
               <Box className="nightStatus" component="section">
-                <strong> Nights: {nightStatus.nights} </strong>
+                <strong>Nights: {nightStatus.nights}</strong>
               </Box>
             )}
           </div>
+
           <br />
+
           <div className="hotelSearch">
             <button className="hotelSearchButton" onClick={handleSearch}>
               Search
             </button>
           </div>
         </div>
+
         <Advertisement />
       </div>
     </>
   );
-}
+};
 
 export default HotelSearch;

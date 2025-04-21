@@ -3,11 +3,17 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Product from "./Product";
 import { productData, responsive } from "../../utilis/data";
-import './Testimonials.css'
+import './Testimonials.css';
 
-function Testimonials(props) {
-    const product = productData.map((item) => (
+interface ProductItem {
+    name: string;
+    imageurl: string;
+}
+
+const Testimonials: React.FC = () => {
+    const products = productData.map((item: ProductItem, index: number) => (
         <Product
+            key={index}
             name={item.name}
             url={item.imageurl}
         />
@@ -26,7 +32,7 @@ function Testimonials(props) {
                     // centerMode={true}
                     showDots={false}
                     responsive={responsive}
-                    ssr={true} // means to render carousel on server-side.
+                    ssr={true}
                     infinite={true}
                     autoPlay={true}
                     autoPlaySpeed={2000}
@@ -35,14 +41,13 @@ function Testimonials(props) {
                     transitionDuration={500}
                     // containerclassName="carousel-container"
                     removeArrowOnDeviceType={["tablet", "mobile"]}
-                    // itemclassName="carousel-item-padding-40-px"
-                    dotListclassName="custom-dot-list-style"
+                // dotListClassName="custom-dot-list-style"
                 >
-                    {product}
+                    {products}
                 </Carousel>
             </div>
         </div>
     );
-}
+};
 
 export default Testimonials;

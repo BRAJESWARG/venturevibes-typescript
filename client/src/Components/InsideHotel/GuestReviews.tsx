@@ -2,24 +2,41 @@ import React from "react";
 import "./InsideHotel.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
+// Define the props type for the component
+interface GuestReviewsProps {
+    val: {
+        StarRating: number;
+    };
+}
 
-
-const GuestReviews = ({ val }) => {
-
+const GuestReviews: React.FC<GuestReviewsProps> = ({ val }) => {
     return (
         <div className="GuestReviews">
-            <div id="guest-reviews" data-testid="rnrComponent" className="RNR__RnRStyledWrapper-sc-76u5qf-0 dJAAfN">
+            <div
+                id="guest-reviews"
+                data-testid="rnrComponent"
+                className="RNR__RnRStyledWrapper-sc-76u5qf-0 dJAAfN"
+            >
                 <div className="ReviewNRatingstyles__ContentWrapperDiv-sc-1vffayb-0 hohqDA">
                     <div className="ReviewNRatingstyles__OuterWrapperDiv-sc-1vffayb-1 TSydZ">
                         <div className="dwebCommonstyles__CenteredSpaceWrap-sc-112ty3f-0 ReviewNRatingstyles__HeadingWrapperDiv-sc-1vffayb-2 buWWlt hARIFr">
-                            <h2 className="dwebCommonstyles__LargeSectionHeader-sc-112ty3f-8 eeTyKB">Guest Reviews &amp; Rating for Shakespeare Corporate Guest House</h2>
+                            <h2 className="dwebCommonstyles__LargeSectionHeader-sc-112ty3f-8 eeTyKB">
+                                Guest Reviews &amp; Rating for Shakespeare Corporate Guest House
+                            </h2>
                             <div className="dwebCommonstyles__FlexItem-sc-112ty3f-4 gwpVPdB">
-                                <div data-testid="displayText" className="DropDownCheckListstyles__HoverTargetWrapperDiv-sc-pxm9-5 iUNbDh">
-                                    <span className="DropDownCheckListstyles__FontBoldSpan-sc-pxm9-1 eRtKVZ">Sort By:</span>
-                                    <span className="DropDownCheckListstyles__WrapperSpan-sc-pxm9-3 eRxZvC">Latest first<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="1rem" height="1rem" margin="0 0 0 0.5rem" className="ArrowDownIcon-sc-1rvxdsg-0 iMkIGJ">
-                                        <path d="M16 26a3.07 3.07 0 0 1-2.305-1.04L.614 10.091A2.462 2.462 0 0 1 4.312 6.84l11.439 13.003a.334.334 0 0 0 .501 0L27.691 6.84a2.462 2.462 0 1 1 3.697 3.251L18.311 24.955A3.08 3.08 0 0 1 16.002 26z">
-                                        </path>
-                                    </svg>
+                                <div
+                                    data-testid="displayText"
+                                    className="DropDownCheckListstyles__HoverTargetWrapperDiv-sc-pxm9-5 iUNbDh"
+                                >
+                                    <span className="DropDownCheckListstyles__FontBoldSpan-sc-pxm9-1 eRtKVZ">
+                                        Sort By:
+                                    </span>
+                                    <span className="DropDownCheckListstyles__WrapperSpan-sc-pxm9-3 eRxZvC">
+                                        Latest first
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="1rem" height="1rem" className="ArrowDownIcon-sc-1rvxdsg-0 iMkIGJ">
+                                            <path d="M16 26a3.07 3.07 0 0 1-2.305-1.04L.614 10.091A2.462 2.462 0 0 1 4.312 6.84l11.439 13.003a.334.334 0 0 0 .501 0L27.691 6.84a2.462 2.462 0 1 1 3.697 3.251L18.311 24.955A3.08 3.08 0 0 1 16.002 26z">
+                                            </path>
+                                        </svg>
                                     </span>
                                     <div data-testid="criteriaType" className="DropDownCheckListstyles__HiddenDropdownWrapperDiv-sc-pxm9-4 ffDNvQ">
                                         <div className="DropDownCheckListstyles__TopDiv-sc-pxm9-6 hwDnKh">
@@ -28,19 +45,19 @@ const GuestReviews = ({ val }) => {
                                                     <span className="DropDownCheckListstyles__FontBoldSpan-sc-pxm9-1 eRtKVZ">Sort By</span>
                                                 </li>
                                                 <li>
-                                                    <input name="Latest first" readonly="" type="radio" className="DropDownCheckListstyles__RadioCheck-sc-pxm9-10 gYdvnt" checked="" />
+                                                    <input name="Latest first" type="radio" className="DropDownCheckListstyles__RadioCheck-sc-pxm9-10 gYdvnt" />
                                                     <span className="DropDownCheckListstyles__FontBigBold-sc-pxm9-2 jrzcjl">Latest first</span>
                                                 </li>
                                                 <li>
-                                                    <input name="Helpful first" readonly="" type="radio" className="DropDownCheckListstyles__RadioCheck-sc-pxm9-10 gYdvnt" />
+                                                    <input name="Helpful first" type="radio" className="DropDownCheckListstyles__RadioCheck-sc-pxm9-10 gYdvnt" />
                                                     <span className="DropDownCheckListstyles__FontBigBold-sc-pxm9-2 jrzcjl">Helpful first</span>
                                                 </li>
                                                 <li>
-                                                    <input name="Positive first" readonly="" type="radio" className="DropDownCheckListstyles__RadioCheck-sc-pxm9-10 gYdvnt" />
+                                                    <input name="Positive first" type="radio" className="DropDownCheckListstyles__RadioCheck-sc-pxm9-10 gYdvnt" />
                                                     <span className="DropDownCheckListstyles__FontBigBold-sc-pxm9-2 jrzcjl">Positive first</span>
                                                 </li>
                                                 <li>
-                                                    <input name="Negative first" readonly="" type="radio" className="DropDownCheckListstyles__RadioCheck-sc-pxm9-10 gYdvnt" />
+                                                    <input name="Negative first" type="radio" className="DropDownCheckListstyles__RadioCheck-sc-pxm9-10 gYdvnt" />
                                                     <span className="DropDownCheckListstyles__FontBigBold-sc-pxm9-2 jrzcjl">Negative first</span>
                                                 </li>
                                             </div>
@@ -51,16 +68,36 @@ const GuestReviews = ({ val }) => {
                                 </div>
                             </div>
                         </div>
+
                         <div className="ReviewNRatingstyles__ReviewByUserWrapperDiv-sc-1vffayb-8 kfcvgo">
                             <div className="ReviewNRatingstyles__FlexContainerWrap-sc-1vffayb-10 jwAyyK">
-                                <div hotelrating="3.9" className="Layouts__Column-sc-1yzlivq-1 GuestRatingstyles__GoRatingBlock-sc-1n5ou7m-0 gANvcd gKPvMO">
-                                    <p className="GuestRatingstyles__GoRatingTextWrapper-sc-1n5ou7m-1 ceCnfH">goRating</p>
-                                    <p className="GuestRatingstyles__AvgReviewTextWrapperDiv-sc-1n5ou7m-4 gDjAfW">
-                                        <span className="GuestRatingstyles__AvgReviewTextWrapper-sc-1n5ou7m-5 jVbauY">{val.StarRating}</span>
-                                        <span className="GuestRatingstyles__TotalReviewTextWrapper-sc-1n5ou7m-6 vKLim">/5</span>
+                                <div
+                                    data-hotelrating={val.StarRating}
+                                    className="Layouts__Column-sc-1yzlivq-1 GuestRatingstyles__GoRatingBlock-sc-1n5ou7m-0 gANvcd gKPvMO"
+                                >
+                                    <p className="GuestRatingstyles__GoRatingTextWrapper-sc-1n5ou7m-1 ceCnfH">
+                                        goRating
                                     </p>
-                                    <p data-testid="d-GuestReview-ratingCount" className="GuestRatingstyles__ReviewCountTextWrapper-sc-1n5ou7m-2 ceoSAg">54 Ratings</p>
-                                    <div data-testid="d-GuestReview-reviewCount" className="Layouts__Column-sc-1yzlivq-1 GuestRatingstyles__RatingsCountTextWrapper-sc-1n5ou7m-3 gANvcd jBPckU">10 Reviews</div>
+                                    <p className="GuestRatingstyles__AvgReviewTextWrapperDiv-sc-1n5ou7m-4 gDjAfW">
+                                        <span className="GuestRatingstyles__AvgReviewTextWrapper-sc-1n5ou7m-5 jVbauY">
+                                            {val.StarRating}
+                                        </span>
+                                        <span className="GuestRatingstyles__TotalReviewTextWrapper-sc-1n5ou7m-6 vKLim">
+                                            /5
+                                        </span>
+                                    </p>
+                                    <p
+                                        data-testid="d-GuestReview-ratingCount"
+                                        className="GuestRatingstyles__ReviewCountTextWrapper-sc-1n5ou7m-2 ceoSAg"
+                                    >
+                                        54 Ratings
+                                    </p>
+                                    <div
+                                        data-testid="d-GuestReview-reviewCount"
+                                        className="Layouts__Column-sc-1yzlivq-1 GuestRatingstyles__RatingsCountTextWrapper-sc-1n5ou7m-3 gANvcd jBPckU"
+                                    >
+                                        10 Reviews
+                                    </div>
                                 </div>
                                 <div className="Layouts__Row-sc-1yzlivq-0 RatingsBreakupstyles__WrapperDiv-sc-1w4l82j-0 iRIAvwB dsSAii">
                                     <div className="Layouts__Row-sc-1yzlivq-0 iRIAvwB">
@@ -75,7 +112,7 @@ const GuestReviews = ({ val }) => {
                                         </svg>
                                         <div className="Layouts__Row-sc-1yzlivq-0 RatingsBreakupstyles__ProgressBarWrapperDiv-sc-1w4l82j-2 iRIAvwB lfzkXW">
                                             <div className="Layouts__Column-sc-1yzlivq-1 ProgressBarstyles__ProgressBarInnerWrapperDiv-sc-19gddgi-0 gANvcd eWRShh">
-                                                <span width="7.5" bgcolor="#11998e" className="ProgressBarstyles__ProgressLine-sc-19gddgi-1 gdcYBO">
+                                                <span className="ProgressBarstyles__ProgressLine-sc-19gddgi-1 gdcYBO">
                                                 </span>
                                             </div>
                                         </div>
@@ -93,7 +130,7 @@ const GuestReviews = ({ val }) => {
                                         </svg>
                                         <div className="Layouts__Row-sc-1yzlivq-0 RatingsBreakupstyles__ProgressBarWrapperDiv-sc-1w4l82j-2 iRIAvwB lfzkXW">
                                             <div className="Layouts__Column-sc-1yzlivq-1 ProgressBarstyles__ProgressBarInnerWrapperDiv-sc-19gddgi-0 gANvcd eWRShh">
-                                                <span width="14.500000000000002" bgcolor="#1ca54f" className="ProgressBarstyles__ProgressLine-sc-19gddgi-1 iSmcEf">
+                                                <span className="ProgressBarstyles__ProgressLine-sc-19gddgi-1 iSmcEf">
                                                 </span>
                                             </div>
                                         </div>
@@ -111,7 +148,7 @@ const GuestReviews = ({ val }) => {
                                         </svg>
                                         <div className="Layouts__Row-sc-1yzlivq-0 RatingsBreakupstyles__ProgressBarWrapperDiv-sc-1w4l82j-2 iRIAvwB lfzkXW">
                                             <div className="Layouts__Column-sc-1yzlivq-1 ProgressBarstyles__ProgressBarInnerWrapperDiv-sc-19gddgi-0 gANvcd eWRShh">
-                                                <span width="3.9999999999999996" bgcolor="#f59d00" className="ProgressBarstyles__ProgressLine-sc-19gddgi-1 fpgWBn">
+                                                <span className="ProgressBarstyles__ProgressLine-sc-19gddgi-1 fpgWBn">
                                                 </span>
                                             </div>
                                         </div>
@@ -129,7 +166,7 @@ const GuestReviews = ({ val }) => {
                                         </svg>
                                         <div className="Layouts__Row-sc-1yzlivq-0 RatingsBreakupstyles__ProgressBarWrapperDiv-sc-1w4l82j-2 iRIAvwB lfzkXW">
                                             <div className="Layouts__Column-sc-1yzlivq-1 ProgressBarstyles__ProgressBarInnerWrapperDiv-sc-19gddgi-0 gANvcd eWRShh">
-                                                <span width="0" bgcolor="#f39c12" className="ProgressBarstyles__ProgressLine-sc-19gddgi-1 hDebIX">
+                                                <span className="ProgressBarstyles__ProgressLine-sc-19gddgi-1 hDebIX">
                                                 </span>
                                             </div>
                                         </div>
@@ -147,7 +184,7 @@ const GuestReviews = ({ val }) => {
                                         </svg>
                                         <div className="Layouts__Row-sc-1yzlivq-0 RatingsBreakupstyles__ProgressBarWrapperDiv-sc-1w4l82j-2 iRIAvwB lfzkXW">
                                             <div className="Layouts__Column-sc-1yzlivq-1 ProgressBarstyles__ProgressBarInnerWrapperDiv-sc-19gddgi-0 gANvcd eWRShh">
-                                                <span width="0.9999999999999999" bgcolor="#e74c3c" className="ProgressBarstyles__ProgressLine-sc-19gddgi-1 ddApVc">
+                                                <span className="ProgressBarstyles__ProgressLine-sc-19gddgi-1 ddApVc">
                                                 </span>
                                             </div>
                                         </div>
@@ -167,6 +204,6 @@ const GuestReviews = ({ val }) => {
             </div>
         </div>
     );
-}
+};
 
 export default GuestReviews;

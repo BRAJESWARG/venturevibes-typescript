@@ -1,19 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import "./InsideMainView.css";
 import {
-    // MDBCard,
-    // MDBCardTitle,
-    // MDBCardText,
-    // MDBCardBody,
     MDBRow,
     MDBCol
 } from 'mdb-react-ui-kit';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 
-function InsideMainView({ val }) {
+// Define the prop type for the hotel data
+type HotelData = {
+    id: number;
+    name: string;
+    location: string;
+    images: string[];
+    pricePerNight: number;
+    City: string;
+    [key: string]: any;
+};
 
-    const [currentIndex, setCurrentIndex] = useState(0);
+type InsideMainViewProps = {
+    val: HotelData;
+};
+
+const InsideMainView: React.FC<InsideMainViewProps> = ({ val }) => {
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % val.Images.length);
@@ -22,41 +32,38 @@ function InsideMainView({ val }) {
     const handlePrev = () => {
         setCurrentIndex((prevIndex) => (prevIndex - 1 + val.Images.length) % val.Images.length);
     };
-    const formatCurrency = (value) => {
+
+    const formatCurrency = (value: number): string => {
         return new Intl.NumberFormat("en-IN", {
             style: "currency",
             currency: "INR",
-            maximumFractionDigits: 0, // Removes decimal values
+            maximumFractionDigits: 0,
         }).format(value);
     };
 
-    const getPriceAfterDiscount = (value) => {
+    const getPriceAfterDiscount = (value: number): number => {
         return value * 0.6;
     };
 
-    const PriceAfterDiscount = getPriceAfterDiscount(val.PricePerNight);
-
-    const getTaxValue = (value) => {
+    const getTaxValue = (value: number): number => {
         return value * 0.18;
     };
 
+    const PriceAfterDiscount = getPriceAfterDiscount(val.PricePerNight);
     const TaxValue = getTaxValue(PriceAfterDiscount);
 
-    const Guest = (val) => {
-        return val.Adults + val.Child
-    }
 
     return (
         <div className='InsideMainView'>
             <div className='InsideMainViewChild'>
                 <div>
                     <MDBRow className='g-0'>
-                        <div fixedheight="5" className="HotelInfostyles__CenterDiv-sc-138dfbx-0 cSraKB">
+                        <div className="HotelInfostyles__CenterDiv-sc-138dfbx-0 cSraKB">
                             <div className="HotelInfostyles__RatingOuterWrapper-sc-138dfbx-9 flayJI">
                                 <div className="HotelInfostyles__StarRatingContainer-sc-138dfbx-7 bYcbLl">
                                     5
-                                    <span itemscope="" itemprop="starRating" itemtype="http://schema.org/Rating">
-                                        <meta itemprop="ratingValue" content="1" />
+                                    <span>
+                                        <meta content="1" />
                                         <span className="HotelRatingStars__StarWrapper-sc-1kvldzg-1 jZQKNP">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" className="RatingStarIcon-sc-1lv0lb2-0 HotelRatingStars__StarIcon-sc-1kvldzg-0 RxyTX ifSBNC">
                                                 <g fill="none" fill-rule="evenodd">
@@ -76,10 +83,10 @@ function InsideMainView({ val }) {
                             </div>
                             <div className="HotelInfostyles__CoupleFriendlyTagContainer-sc-138dfbx-1 cPsVXn">
                                 <span className="PersuasionHoverTextstyles__WrapperDiv-sc-1c06rw1-14 jRhIkX">
-                                    <span type="Couple Friendly Persuasion" wrapperstyles="" className="PersuasionHoverTextstyles__HoverTargetWrapperDiv-sc-1c06rw1-2 gTXKBu">
-                                        <div style={{ border: '1px solid #FF6D38', templatetype: '0', hashover: '[object Object]', color: '#ff6d38', bgcolor: '#ffffff' }} type="Couple Friendly Persuasion" className="PersuasionHoverTextstyles__TextWrapperSpan-sc-1c06rw1-15 lgRJUY">
+                                    <span className="PersuasionHoverTextstyles__HoverTargetWrapperDiv-sc-1c06rw1-2 gTXKBu">
+                                        <div style={{ border: '1px solid #FF6D38', color: '#ff6d38' }} className="PersuasionHoverTextstyles__TextWrapperSpan-sc-1c06rw1-15 lgRJUY">
                                             <span className="PersuasionHoverTextstyles__TextLabelIconContainer-sc-1c06rw1-20 edcLrh">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" height="1.6rem" width="1.6rem" fill="#ff6d38" margin="" className="CoupleFriendlyIcon-sc-1akp97f-0 bIgRch">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" height="1.6rem" width="1.6rem" fill="#ff6d38" className="CoupleFriendlyIcon-sc-1akp97f-0 bIgRch">
                                                     <path d="M23.333 4.309A4.133 4.133 0 0 0 19.805.025a3.78 3.78 0 0 0-3.539 1.627.333.333 0 0 1-.541 0A3.77 3.77 0 0 0 12.194.025a4.133 4.133 0 0 0-3.528 4.284c0 3.236 4.564 7.081 6.533 8.585.473.37 1.137.37 1.611 0 1.957-1.503 6.523-5.349 6.523-8.585M11.155 24.507a.335.335 0 0 1-.044-.566 5.866 5.866 0 1 0-6.888 0 .334.334 0 0 1-.044.567A7.67 7.67 0 0 0 0 31.335c0 .368.298.667.667.667h14a.667.667 0 0 0 .667-.667 7.68 7.68 0 0 0-4.179-6.827zM7.667 22.4a3.2 3.2 0 0 1-3.035-4.207.333.333 0 0 1 .496-.174 7.509 7.509 0 0 0 5.337 1.073.33.33 0 0 1 .281.081.34.34 0 0 1 .108.267 3.2 3.2 0 0 1-3.188 2.96zM27.733 24.892a.667.667 0 0 0-.839.28l-1.611 2.8a.335.335 0 0 1-.579 0l-1.611-2.8a.667.667 0 0 0-.839-.28 7.01 7.01 0 0 0-4.256 6.441c0 .368.298.667.667.667h12.667a.667.667 0 0 0 .667-.667 7.01 7.01 0 0 0-4.267-6.441z">
                                                     </path>
                                                     <path d="M19.333 18.977a4.1 4.1 0 0 1-.933 3.136 1.333 1.333 0 1 0 1.866 1.896 5 5 0 0 0 .557-.651.334.334 0 0 1 .488-.054 5.654 5.654 0 0 0 7.368 0 .338.338 0 0 1 .488.056q.252.348.557.651a1.333 1.333 0 1 0 1.875-1.897 4.09 4.09 0 0 1-.933-3.136 5.667 5.667 0 1 0-11.334 0zm2.964.036a4.6 4.6 0 0 0 1.212-.373c.481-.226.9-.564 1.221-.987a.335.335 0 0 1 .533 0c.322.422.741.761 1.221.987.385.18.793.306 1.212.373.173.034.29.196.267.371a2.998 2.998 0 0 1-5.949 0 .335.335 0 0 1 .283-.371">
@@ -88,11 +95,11 @@ function InsideMainView({ val }) {
                                             </span>
                                             <span title="">Couple Friendly</span>
                                         </div>
-                                        <div direction="bottom" className="PersuasionHoverTextstyles__HiddenDropdownWrapperDiv-sc-1c06rw1-1 fNdWoQ persuasion-hover">
+                                        <div className="PersuasionHoverTextstyles__HiddenDropdownWrapperDiv-sc-1c06rw1-1 fNdWoQ persuasion-hover">
                                             <div className="PersuasionHoverTextstyles__TopDiv-sc-1c06rw1-3 slvVL">
-                                                <div style={{ color: '#141823', bgcolor: '#fff4eb' }} className="Layouts__Column-sc-1yzlivq-1 PersuasionHoverTextstyles__TextBlockDropDownWrapper-sc-1c06rw1-8 gANvcd dBFeZI">
-                                                    <div style={{ color: '#ff6d38', bgcolor: '#ffffff' }} className="Layouts__Row-sc-1yzlivq-0 PersuasionHoverTextstyles__TextBlockDDHeading-sc-1c06rw1-10 iRIAvw tmTFo">
-                                                        <span style={{ color: '#ff6d38', bgcolor: '#ffffff' }} className="PersuasionHoverTextstyles__TextBlockDDHeadingSpan-sc-1c06rw1-11 hzRtce">
+                                                <div style={{ color: '#141823' }} className="Layouts__Column-sc-1yzlivq-1 PersuasionHoverTextstyles__TextBlockDropDownWrapper-sc-1c06rw1-8 gANvcd dBFeZI">
+                                                    <div style={{ color: '#ff6d38' }} className="Layouts__Row-sc-1yzlivq-0 PersuasionHoverTextstyles__TextBlockDDHeading-sc-1c06rw1-10 iRIAvw tmTFo">
+                                                        <span style={{ color: '#ff6d38' }} className="PersuasionHoverTextstyles__TextBlockDDHeadingSpan-sc-1c06rw1-11 hzRtce">
                                                             <span className="PersuasionHoverTextstyles__MiniIconWrapperSpan-sc-1c06rw1-18 bCjtdu">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" height="1.2rem" width="1.2rem" fill="#ff6d38" className="CoupleFriendlyIcon-sc-1akp97f-0 fzjEht">
                                                                     <path d="M23.333 4.309A4.133 4.133 0 0 0 19.805.025a3.78 3.78 0 0 0-3.539 1.627.333.333 0 0 1-.541 0A3.77 3.77 0 0 0 12.194.025a4.133 4.133 0 0 0-3.528 4.284c0 3.236 4.564 7.081 6.533 8.585.473.37 1.137.37 1.611 0 1.957-1.503 6.523-5.349 6.523-8.585M11.155 24.507a.335.335 0 0 1-.044-.566 5.866 5.866 0 1 0-6.888 0 .334.334 0 0 1-.044.567A7.67 7.67 0 0 0 0 31.335c0 .368.298.667.667.667h14a.667.667 0 0 0 .667-.667 7.68 7.68 0 0 0-4.179-6.827zM7.667 22.4a3.2 3.2 0 0 1-3.035-4.207.333.333 0 0 1 .496-.174 7.509 7.509 0 0 0 5.337 1.073.33.33 0 0 1 .281.081.34.34 0 0 1 .108.267 3.2 3.2 0 0 1-3.188 2.96zM27.733 24.892a.667.667 0 0 0-.839.28l-1.611 2.8a.335.335 0 0 1-.579 0l-1.611-2.8a.667.667 0 0 0-.839-.28 7.01 7.01 0 0 0-4.256 6.441c0 .368.298.667.667.667h12.667a.667.667 0 0 0 .667-.667 7.01 7.01 0 0 0-4.267-6.441z">
@@ -101,7 +108,7 @@ function InsideMainView({ val }) {
                                                                     </path>
                                                                 </svg>
                                                             </span>
-                                                            <span type="Couple Friendly Persuasion" className="PersuasionHoverTextstyles__PersuasionHoverTitleSpan-sc-1c06rw1-0 dxCQBs">Couple Friendly Hotels</span>
+                                                            <span className="PersuasionHoverTextstyles__PersuasionHoverTitleSpan-sc-1c06rw1-0 dxCQBs">Couple Friendly Hotels</span>
                                                         </span>
                                                     </div>
                                                     <div className="PersuasionHoverTextstyles__IconWrapperDiv-sc-1c06rw1-16 hTvKaA">
@@ -157,7 +164,7 @@ function InsideMainView({ val }) {
                                                         <p className="PersuasionHoverTextstyles__TextWrapper-sc-1c06rw1-17 bCWWx">Local IDs Accepted</p>
                                                     </div>
                                                 </div>
-                                                <div style={{ bgcolor: '#fff4eb', direction: 'bottom' }} className="PersuasionHoverTextstyles__TipUI-sc-1c06rw1-4 PersuasionHoverTextstyles__TipPositioning-sc-1c06rw1-6 ibOANv eVOhNU">
+                                                <div className="PersuasionHoverTextstyles__TipUI-sc-1c06rw1-4 PersuasionHoverTextstyles__TipPositioning-sc-1c06rw1-6 ibOANv eVOhNU">
                                                 </div>
                                             </div>
                                         </div>
@@ -172,11 +179,11 @@ function InsideMainView({ val }) {
                                 <MDBCol md='7'>
                                     <div className=''>
                                         <div className=''>
-                                            <h1 itemprop="name" className="dwebCommonstyles__SectionHeaderSEO-sc-112ty3f-7 HotelName__HotelNameText-sc-1o26jsk-0 AoXaW bHgRLt">
+                                            <h1 className="dwebCommonstyles__SectionHeaderSEO-sc-112ty3f-7 HotelName__HotelNameText-sc-1o26jsk-0 AoXaW bHgRLt">
                                                 Pride Plaza Hotel Aerocity New Delhi
                                             </h1>
                                         </div>
-                                        <a href="/#" width="100%" className="TriggerActionText__TriggerAnchorText-sc-1vbd2op-0 tzmmd">
+                                        <a href="/#" className="TriggerActionText__TriggerAnchorText-sc-1vbd2op-0 tzmmd">
                                             <div className="HotelAddressText__HotelAddressTextDiv-sc-1lcrowf-2 cUDamO">
                                                 <span className="HotelAddressText__AddressTextLeftSpan-sc-1lcrowf-3 gkwTFY">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="2.5rem" height="16" className="LocationInfoIcon-sc-vwm4pc-0 hKTTdu">
@@ -187,18 +194,18 @@ function InsideMainView({ val }) {
                                                             </path>
                                                         </g>
                                                     </svg>
-                                                    <address itemscope="" itemprop="address" itemtype="http://schema.org/PostalAddress" className="HotelAddressText__HotelAddressStyled-sc-1lcrowf-1 gZCrux">
+                                                    <address className="HotelAddressText__HotelAddressStyled-sc-1lcrowf-1 gZCrux">
                                                         <small>Park Street, Kolkata</small>
-                                                        <span itemprop="postalCode" className="dwebCommonstyles__HiddenElement-sc-112ty3f-17 cJirRI">
+                                                        <span className="dwebCommonstyles__HiddenElement-sc-112ty3f-17 cJirRI">
                                                             110037
                                                         </span>
-                                                        <span itemprop="addressLocality" className="dwebCommonstyles__HiddenElement-sc-112ty3f-17 cJirRI">
+                                                        <span className="dwebCommonstyles__HiddenElement-sc-112ty3f-17 cJirRI">
                                                             Aerocity
                                                         </span>
-                                                        <span itemprop="addressRegion" className="dwebCommonstyles__HiddenElement-sc-112ty3f-17 cJirRI">
+                                                        <span className="dwebCommonstyles__HiddenElement-sc-112ty3f-17 cJirRI">
                                                             Delhi
                                                         </span>
-                                                        <span itemprop="addressCountry" className="dwebCommonstyles__HiddenElement-sc-112ty3f-17 cJirRI">
+                                                        <span className="dwebCommonstyles__HiddenElement-sc-112ty3f-17 cJirRI">
                                                             India
                                                         </span>
                                                     </address>
@@ -240,13 +247,13 @@ function InsideMainView({ val }) {
                                                     </div>
                                                     <div className="ReviewInfostyles__ReviewOuterWrapper-sc-extx54-19 dtSHLP">
                                                         <div className="ReviewInfostyles__ReviewInnerWrapper-sc-extx54-20 iYaNAT">
-                                                            <div bgcolor="#48b41c" className="ReviewInfostyles__RatingWrapper-sc-extx54-21 kjYceN">
+                                                            <div className="ReviewInfostyles__RatingWrapper-sc-extx54-21 kjYceN">
                                                                 <span color="#1ABA32" className="ReviewInfostyles__ReviewNumber-sc-extx54-3 hyxOAP">
-                                                                    <span itemprop="worstRating" content="1">
+                                                                    <span content="1">
                                                                     </span>
-                                                                    <span itemprop="ratingValue">{val.StarRating}</span>
+                                                                    <span >{val.StarRating}</span>
                                                                     <span>/</span>
-                                                                    <span itemprop="bestRating" className="ReviewInfostyles__OutOfNumberForReview-sc-extx54-6 gnnIdA">5</span>
+                                                                    <span className="ReviewInfostyles__OutOfNumberForReview-sc-extx54-6 gnnIdA">5</span>
                                                                 </span>
                                                             </div>
                                                             <div className="ReviewInfostyles__NewViewMapCTA-sc-extx54-15 iINLVi">View Reviews</div>
@@ -268,14 +275,14 @@ function InsideMainView({ val }) {
                                                     <div className="CaptivateBannerGallerystyles__WideImagePreviewWrap-sc-dn43rp-6 fJkWyA">
                                                         <div className="CaptivateBannerGallerystyles__CaptivateGalleryOverlayTabWrap-sc-dn43rp-13 dKjUdJ">
                                                             <div className="CaptivateBannerGallerystyles__CaptivateGalleryOverlayTab-sc-dn43rp-14 eLINGK">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFFFFF" margin="0 .5rem 0 0" className="HappyBuildingIcon-sc-sv2xip-0 pWtdx">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFFFFF" className="HappyBuildingIcon-sc-sv2xip-0 pWtdx">
                                                                     <path d="M10.167 2.667c.368 0 .666.298.666.666v11c0 .184.15.334.334.334h.333c.184 0 .333-.15.333-.334V9.167c0-.369.299-.667.667-.667V8a.5.5 0 0 1 1 0v.5h1c.368 0 .667.298.667.667V14.5c0 .092.074.167.166.167a.666.666 0 1 1 0 1.333H.667a.666.666 0 1 1 0-1.333.166.166 0 0 0 .166-.167V9.167c0-.369.299-.667.667-.667h1V8a.5.5 0 0 1 1 0v.5c.368 0 .667.298.667.667v5.166c0 .184.149.334.333.334h.333c.184 0 .334-.15.334-.334v-11c0-.368.298-.666.666-.666zM9.5 12.333h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1m-.167-2.666H6.667a.5.5 0 0 0 0 1h2.666a.5.5 0 0 0 0-1m0-2.667H6.667a.5.5 0 0 0 0 1h2.666a.5.5 0 0 0 0-1m0-2.667H6.667a.5.5 0 0 0 0 1h2.666a.5.5 0 0 0 0-1M8.5 0c.368 0 .667.298.667.667v.666c0 .184-.15.334-.334.334H7.167a.335.335 0 0 1-.334-.334V.667C6.833.298 7.132 0 7.5 0z">
                                                                     </path>
                                                                 </svg>
                                                                 <p>Photos by Property (41)</p>
                                                             </div>
                                                             <div className="CaptivateBannerGallerystyles__CaptivateGalleryOverlayTab-sc-dn43rp-14 eLINGK">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFFFFF" margin="0 .5rem 0 0" className="HappyGuestCameraIcon-sc-1rlytel-0 kMWgnD">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="#FFFFFF" className="HappyGuestCameraIcon-sc-1rlytel-0 kMWgnD">
                                                                     <path fill="none" fill-rule="nonzero" d="M15.298 12.675c-.49-1.022-2.16-1.663-4.473-2.55l-.607-.233c-.076-.03-.152-.159-.2-.348a2.7 2.7 0 0 1 .072-1.507c.688-.791 1.363-1.77 1.363-4.21C11.453 1.184 9.72.002 8 .002c-1.403-.05-2.682.832-3.187 2.199a.18.18 0 0 0 .018.16.16.16 0 0 0 .138.076h.619a1.82 1.82 0 0 1 1.437.639.17.17 0 0 0 .122.056h.186c1.105 0 2 .934 2 2.087v3.825c0 1.153-.895 2.087-2 2.087h-4.6a.2.2 0 0 0-.066.015 3.87 3.87 0 0 0-1.966 1.53A7.6 7.6 0 0 0 0 15.652c0 .192.15.348.333.348h15.334a.34.34 0 0 0 .333-.348 7.6 7.6 0 0 0-.702-2.977M7.04 10.667c.53 0 .96-.485.96-1.083v-3.97c0-.597-.43-1.082-.96-1.082h-.666a.16.16 0 0 1-.14-.094c-.15-.389-.493-.637-.87-.628H3.916c-.377-.009-.72.24-.87.628a.16.16 0 0 1-.14.094H.96c-.53 0-.96.485-.96 1.082v3.97c0 .598.43 1.083.96 1.083zM5.09 5.333c.804 0 1.455.682 1.455 1.524s-.65 1.524-1.454 1.524-1.455-.682-1.455-1.524.651-1.524 1.455-1.524z">
                                                                     </path>
                                                                 </svg>
@@ -283,7 +290,7 @@ function InsideMainView({ val }) {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div marginbottom="1rem" className="CaptivateBannerGallerystyles__CaptivateBannerGalleryContainer-sc-dn43rp-0 dvXhdS">
+                                                    <div className="CaptivateBannerGallerystyles__CaptivateBannerGalleryContainer-sc-dn43rp-0 dvXhdS">
                                                         <div className="Carouselstyles__CarouselContainer-sc-1hv3vvl-1 iAowDS">
                                                             <div className="Carouselstyles__CarouselSlider-sc-1hv3vvl-2 jUQFXK">
 
@@ -431,7 +438,7 @@ function InsideMainView({ val }) {
                                                         <path d="M21.185 3.148a7.333 7.333 0 11-10.37 10.371 7.333 7.333 0 0110.37-10.371zM16 17.667c-6.992.008-12.659 5.674-12.667 12.667 0 .368.298.667.667.667h24a.667.667 0 00.667-.667C28.659 23.342 22.993 17.675 16 17.667z">
                                                         </path>
                                                     </svg>
-                                                    <p className="BookingWidgetstyles__NoOfGuestsAndRoomsTextStyles-sc-bwqud6-8 eAlRyj">{Guest(val)} Guests</p>
+                                                    <p className="BookingWidgetstyles__NoOfGuestsAndRoomsTextStyles-sc-bwqud6-8 eAlRyj">{val.Adults + val.Child} Guests</p>
                                                 </div>
                                                 <div style={{ margin: '0px 5px' }} > | </div>
                                                 <div className="dwebCommonstyles__FlexCentered-sc-112ty3f-6 BookingWidgetstyles__NoOfGuestsContainer-sc-bwqud6-7 lfQUri dCeeKI">
@@ -444,10 +451,10 @@ function InsideMainView({ val }) {
                                             </div>
                                             <div className="BookingWidgetstyles__PersuasionContainer-sc-bwqud6-12 iZMmzF">
                                                 <span className="PersuasionHoverTextstyles__WrapperDiv-sc-6gy5p5-14 kReQCt">
-                                                    <span type="" wrapperstyles="" className="PersuasionHoverTextstyles__HoverTargetWrapperDiv-sc-6gy5p5-2 dlgNQP">
-                                                        <div padding="0" templatetype="16" color="#77ca7e" bgcolor="" type="" hasbgcolor="" className="PersuasionHoverTextstyles__TextWrapperSpan-sc-6gy5p5-15 bvCGaC">
+                                                    <span className="PersuasionHoverTextstyles__HoverTargetWrapperDiv-sc-6gy5p5-2 dlgNQP">
+                                                        <div color="#77ca7e" className="PersuasionHoverTextstyles__TextWrapperSpan-sc-6gy5p5-15 bvCGaC">
                                                             <span className="PersuasionHoverTextstyles__TextLabelIconContainer-sc-6gy5p5-20 gjXTgl">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" height="1.6rem" width="1.6rem" fill="#77ca7e" margin="" className="ShieldIcon-sc-k4m8fy-0 cAYiP">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" height="1.6rem" width="1.6rem" fill="#77ca7e" className="ShieldIcon-sc-k4m8fy-0 cAYiP">
                                                                     <path d="M29.333 5.033a2.05 2.05 0 0 0-1.187-1.875A29.5 29.5 0 0 0 15.999.666 29.5 29.5 0 0 0 3.852 3.158a2.05 2.05 0 0 0-1.187 1.875v10.183a16.38 16.38 0 0 0 10.437 15.291l1.423.552a4.08 4.08 0 0 0 2.947 0l1.423-.552a16.38 16.38 0 0 0 10.437-15.291zm-4.656 5.952L16.63 21.961a1.67 1.67 0 0 1-1.216.676h-.133c-.442 0-.866-.176-1.179-.489l-6.103-6.1a1.667 1.667 0 0 1 2.358-2.356l4.455 4.456a.333.333 0 0 0 .505-.039l6.667-9.095a1.667 1.667 0 0 1 2.716 1.932l-.028.038z">
                                                                     </path>
                                                                 </svg>
@@ -470,9 +477,9 @@ function InsideMainView({ val }) {
                                             </p>
                                         </div>
                                     </div>
-                                    <span itemprop="priceRange" className="dwebCommonstyles__HiddenElement-sc-112ty3f-17 cJirRI">Hotel Rushabh Home Price Starts at INR {val.PricePerNight}/Night</span>
+                                    <span className="dwebCommonstyles__HiddenElement-sc-112ty3f-17 cJirRI">Hotel Rushabh Home Price Starts at INR {val.PricePerNight}/Night</span>
                                     <button className="dwebCommonstyles__ButtonBase-sc-112ty3f-14 BookingWidgetstyles__ViewRoomOptionsButton-sc-bwqud6-10 cYhrVX cjSXqJ">
-                                        <div styleprops="[object Object]" className="TextFieldExpt__Tag-sc-7a7pro-0 hAWoHt">
+                                        <div className="TextFieldExpt__Tag-sc-7a7pro-0 hAWoHt">
                                             <span>VIEW ALL ROOM OPTIONS</span>
                                             <div className="BookingWidgetstyles__RightDoubleArrowIconContainer-sc-bwqud6-9 insATV">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 15" width="2rem" height="2rem" fill="#FFFFFF" className="RightDoubleArrow__RightDoubleArrowIcon-sc-1tk0dpe-0 hppXJR">

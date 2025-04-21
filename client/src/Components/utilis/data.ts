@@ -1,6 +1,22 @@
-export const responsive = {
+// Type definitions
+export interface ResponsiveSettings {
+  breakpoint: {
+    max: number;
+    min: number;
+  };
+  items: number;
+  slidesToSlide?: number;
+}
+
+export interface ProductItem {
+  id: number;
+  imageurl: string;
+  name: string;
+}
+
+// Responsive settings
+export const responsive: Record<string, ResponsiveSettings> = {
   superLargeDesktop: {
-    // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 1505 },
     items: 5,
     slidesToSlide: 2,
@@ -19,7 +35,8 @@ export const responsive = {
   },
 };
 
-export const productData = [
+// Product data
+export const productData: ProductItem[] = [
   {
     id: 1,
     imageurl:
@@ -28,20 +45,17 @@ export const productData = [
   },
   {
     id: 2,
-    imageurl:
-      "https://etimg.etb2bimg.com/photo/109819916.cms",
+    imageurl: "https://etimg.etb2bimg.com/photo/109819916.cms",
     name: "Lakshadweep",
   },
   {
     id: 3,
-    imageurl:
-      "https://www.rltourism.com/wp-content/uploads/2023/04/langkavi.jpg",
+    imageurl: "https://www.rltourism.com/wp-content/uploads/2023/04/langkavi.jpg",
     name: "Langkawi",
   },
   {
     id: 4,
-    imageurl:
-      "https://cdn.forevervacation.com/uploads/blog/the-best-time-to-visit-phuket-2537.webp",
+    imageurl: "https://cdn.forevervacation.com/uploads/blog/the-best-time-to-visit-phuket-2537.webp",
     name: "Phuket",
   },
   {
@@ -56,6 +70,4 @@ export const productData = [
       "https://www.indianholiday.com/wordpress/wp-content/uploads/2024/09/ooty-best-1.png",
     name: "Ooty",
   },
-
 ];
-

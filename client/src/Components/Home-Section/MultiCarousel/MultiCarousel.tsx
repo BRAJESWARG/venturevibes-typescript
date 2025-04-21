@@ -3,8 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Carousel from 'react-bootstrap/Carousel';
 import './CardCarousel.css';
 
-
-function MultiCarousel() {
+const MultiCarousel: React.FC = () => {
     return (
         <div className='MultiCarousel'>
             <div style={{ display: 'block', width: '70%', padding: 30, alignItems: 'center' }}>
@@ -36,6 +35,6 @@ function MultiCarousel() {
             </div>
         </div>
     );
-}
+};
 
 export default MultiCarousel;

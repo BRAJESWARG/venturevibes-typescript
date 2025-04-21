@@ -5,21 +5,29 @@ import {
   MDBCardTitle,
   MDBCardText,
   MDBCardImage,
-  // MDBBtn,
   MDBRipple
 } from 'mdb-react-ui-kit';
 
-export default function Product(props) {
+// Define the props interface
+interface ProductProps {
+  name: string;
+  url: string;
+}
+
+const Product: React.FC<ProductProps> = ({ name, url }) => {
   return (
     <MDBCard>
       <MDBRipple rippleColor='light' rippleTag='div' className='bg-image hover-overlay'>
-        <MDBCardImage src={props.url} fluid alt={props.name} />
+        <MDBCardImage src={url} fluid alt={name} />
       </MDBRipple>
       <MDBCardBody>
-        <MDBCardTitle>{props.name}</MDBCardTitle>
+        <MDBCardTitle>{name}</MDBCardTitle>
         <MDBCardText>
+          {/* Optional description text here if needed */}
         </MDBCardText>
       </MDBCardBody>
     </MDBCard>
   );
-}
+};
+
+export default Product;

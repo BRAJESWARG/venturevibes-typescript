@@ -1,6 +1,7 @@
 import React from "react";
 import "./InsideHotel.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 import InsideSearchView from "./InsideSearchView";
 import InsideMainView from "./InsideMainView";
 import InsideNav from "./InsideNav";
@@ -11,40 +12,55 @@ import GuestReviews from "./GuestReviews";
 import StayOptions from "./StayOptions";
 import SimilarProperties from "./SimilarProperties";
 
+// Define the type for `val`. Customize it based on actual hotel data structure.
+export interface HotelData {
+    id: number;
+    name: string;
+    location: string;
+    images: string[];
+    pricePerNight: number;
+    StarRating: number;
+    Thumbnail: string;
+    City: string;
+    [key: string]: any; 
+}
 
-const InsideHotel = ({ val }) => {
+interface InsideHotelProps {
+    val: HotelData;
+}
 
+const InsideHotel: React.FC<InsideHotelProps> = ({ val }) => {
     return (
         <>
-            <div className='InsideHotelSearchView'>
+            <div className="InsideHotelSearchView">
                 <InsideSearchView val={val} />
             </div>
-            <div className='InsideHotelMainView'>
+            <div className="InsideHotelMainView">
                 <InsideMainView val={val} />
             </div>
-            <div className='InsideHotelNav'>
-                <InsideNav val={val} />
+            <div className="InsideHotelNav">
+                <InsideNav />
             </div>
-            <div className='InsideHotelStayOptions'>
+            <div className="InsideHotelStayOptions">
                 <StayOptions val={val} />
             </div>
-            <div className='InsideHotelAmenities'>
-                <Amenities val={val} />
+            <div className="InsideHotelAmenities">
+                <Amenities />
             </div>
-            <div className='InsideHotelHost'>
-                <Host val={val} />
+            <div className="InsideHotelHost">
+                <Host />
             </div>
-            <div className='InsideHotelGuestReviews'>
+            <div className="InsideHotelGuestReviews">
                 <GuestReviews val={val} />
             </div>
-            <div className='InsideHotelPropertyPolicies'>
-                <PropertyPolicies val={val} />
+            <div className="InsideHotelPropertyPolicies">
+                <PropertyPolicies />
             </div>
-            <div className='InsideHotelSimilarProperties'>
+            <div className="InsideHotelSimilarProperties">
                 <SimilarProperties val={val} />
             </div>
         </>
     );
-}
+};
 
 export default InsideHotel;

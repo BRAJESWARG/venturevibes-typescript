@@ -2,26 +2,38 @@ import React from "react";
 import "./StayOptions.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-const StayOptions = ({ val }) => {
+// Define the expected type for props
+interface StayOptionsProps {
+    val: {
+        id: number;
+        name: string;
+        location: string;
+        images: string[];
+        pricePerNight: number;
+        Thumbnail: string;
+        City: string;
+        [key: string]: any;
+    };
+}
 
-    const formatCurrency = (value) => {
+const StayOptions: React.FC<StayOptionsProps> = ({ val }) => {
+    const formatCurrency = (value: number): string => {
         return new Intl.NumberFormat("en-IN", {
             style: "currency",
             currency: "INR",
-            maximumFractionDigits: 0, // Removes decimal values
+            maximumFractionDigits: 0,
         }).format(value);
     };
 
-    const getPriceAfterDiscount = (value) => {
+    const getPriceAfterDiscount = (value: number): number => {
         return value * 0.6;
     };
 
-    const PriceAfterDiscount = getPriceAfterDiscount(val.PricePerNight);
-
-    const getTaxValue = (value) => {
+    const getTaxValue = (value: number): number => {
         return value * 0.18;
     };
 
+    const PriceAfterDiscount = getPriceAfterDiscount(val.PricePerNight);
     const TaxValue = getTaxValue(PriceAfterDiscount);
 
     return (
@@ -33,11 +45,11 @@ const StayOptions = ({ val }) => {
                             <ul id="details-filters-outer-wrapper" className="FiltersGroupstyles__FilterList-sc-1jwjp2j-0 gexyvD">
                                 <p className="FiltersGroupstyles__FilterByText-sc-1jwjp2j-4 zcRkk">Filter Type</p>
                                 <li style={{ padding: '1px 0px', border: 'none' }}>
-                                    <div id="details-filters-outer-wrapper" customouterwrapperpadding="0px" className="Filterstyles__OuterWrapperDiv-sc-czu6n9-1 dGqyqI">
-                                        <div custominnerwrapperpadding="0.7rem 10px" className="Layouts__Row-sc-1yzlivq-0 Filterstyles__InnerWrapperDiv-sc-czu6n9-2 iRIAvw YBPYA">
+                                    <div id="details-filters-outer-wrapper" className="Filterstyles__OuterWrapperDiv-sc-czu6n9-1 dGqyqI">
+                                        <div className="Layouts__Row-sc-1yzlivq-0 Filterstyles__InnerWrapperDiv-sc-czu6n9-2 iRIAvw YBPYA">
                                             <div className="Layouts__Row-sc-1yzlivq-0 Filterstyles__ItemWrapperDiv-sc-czu6n9-3 iRIAvw fuYugT">
                                                 <input id="Free Cancellation" data-testid="detail-roomSelection-filter-input" type="checkbox" className="Filterstyles__CheckBox-sc-czu6n9-0 Filterstyles__StyledCheckBox-sc-czu6n9-4 iCchch hfyqtt" />
-                                                <label for="Free Cancellation" textcolor="#1958B6" className="Filterstyles__TextStyledSpan-sc-czu6n9-5 dVwFRs">Free Cancellation </label>
+                                                <label className="Filterstyles__TextStyledSpan-sc-czu6n9-5 dVwFRs">Free Cancellation </label>
                                             </div>
                                         </div>
                                     </div>
@@ -62,8 +74,8 @@ const StayOptions = ({ val }) => {
                                         <div id="2312upselldd">
                                         </div>
                                         <div className="Roomstyles__RoomTypeStyledWrapper-sc-1vvh1xt-2 dbEVNG">
-                                            <div filterheight="0" className="Roomstyles__RoomTypeStickyWrap-sc-1vvh1xt-4 KdsaA">
-                                                <h3 filterheight="0" className="Roomstyles__RoomTypeTextStyled-sc-1vvh1xt-3 hEXjuX">Standard Room</h3>
+                                            <div className="Roomstyles__RoomTypeStickyWrap-sc-1vvh1xt-4 KdsaA">
+                                                <h3 className="Roomstyles__RoomTypeTextStyled-sc-1vvh1xt-3 hEXjuX">Standard Room</h3>
                                                 <a href="/#">
                                                     <div className="Layouts__Column-sc-1yzlivq-1 Roomstyles__Column-sc-1vvh1xt-0 Roomstyles__RoomImageWrapper-sc-1vvh1xt-5 gANvcd kyMJfW fqOCbV">
                                                         <img
@@ -76,18 +88,18 @@ const StayOptions = ({ val }) => {
                                                     </div>
                                                 </a>
                                                 <div className="Roomstyles__RoomFeaturesWrapper-sc-1vvh1xt-9 gRZdvM">
-                                                    <div width="50%" className="Layouts__Row-sc-1yzlivq-0 RoomInfoText__RoomTextInfoWrapperStyled-sc-1bg35eu-0 iRIAvw hQzkPE">
-                                                        <span alignitems="center" className="RoomInfoText__RoomInfoTextStyled-sc-1bg35eu-1 cUApqs">
-                                                            <div margintop="6px" padding="0 0.5rem 0 0" className="Roomstyles__RoomTypeColumnIconsContainer-sc-1vvh1xt-7 dTyqtu">
+                                                    <div className="Layouts__Row-sc-1yzlivq-0 RoomInfoText__RoomTextInfoWrapperStyled-sc-1bg35eu-0 iRIAvw hQzkPE">
+                                                        <span className="RoomInfoText__RoomInfoTextStyled-sc-1bg35eu-1 cUApqs">
+                                                            <div className="Roomstyles__RoomTypeColumnIconsContainer-sc-1vvh1xt-7 dTyqtu">
                                                                 <img
                                                                     alt="" src="https://gos3.ibcdn.com/roomSizeBlack-1678093548.png" width="22px" />
                                                             </div>
                                                             <span style={{ paddingLeft: '3px', paddingTop: '7px' }}>120 sq.ft (11 sq.mt)</span>
                                                         </span>
                                                     </div>
-                                                    <div width="50%" className="Layouts__Row-sc-1yzlivq-0 RoomInfoText__RoomTextInfoWrapperStyled-sc-1bg35eu-0 iRIAvw hQzkPE">
-                                                        <span alignitems="center" className="RoomInfoText__RoomInfoTextStyled-sc-1bg35eu-1 cUApqs">
-                                                            <div margintop="6px" padding="0 0.5rem 0 0" className="Roomstyles__RoomTypeColumnIconsContainer-sc-1vvh1xt-7 dTyqtu">
+                                                    <div className="Layouts__Row-sc-1yzlivq-0 RoomInfoText__RoomTextInfoWrapperStyled-sc-1bg35eu-0 iRIAvw hQzkPE">
+                                                        <span className="RoomInfoText__RoomInfoTextStyled-sc-1bg35eu-1 cUApqs">
+                                                            <div className="Roomstyles__RoomTypeColumnIconsContainer-sc-1vvh1xt-7 dTyqtu">
                                                                 <img alt="" src="https://gos3.ibcdn.com/bedBlackIcon-1678093474.png" width="22px" />
                                                             </div>
                                                             <span style={{ paddingLeft: '3px', paddingTop: '7px' }}>Queen Bed</span>
@@ -96,7 +108,7 @@ const StayOptions = ({ val }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="RoomFlavorsstyles__RoomFlavorsContainer-sc-19znpmi-0 gIXzUCB room-flavor-container" flexgrowshrink="2">
+                                        <div className="RoomFlavorsstyles__RoomFlavorsContainer-sc-19znpmi-0 gIXzUCB room-flavor-container" >
                                             <div data-testid="detail-roomSelection-room-flavor" className="RoomFlavorstyles__RoomFlavorWrap-sc-90vv8b-9 gIPmqX">
                                                 <div className="RoomFlavorstyles__RoomFlavorColumn-sc-90vv8b-0 gpDZNN">
                                                     <div className="RoomFlavorstyles__RoomHeadingContainer-sc-90vv8b-3 dSSarT">
@@ -105,7 +117,7 @@ const StayOptions = ({ val }) => {
                                                     <div className="RoomFlavorstyles__RoomOptionsBody-sc-90vv8b-4 gXrlaP">
                                                         <div style={{ paddingTop: '11px' }}>
                                                             <div style={{ visibility: 'hidden' }}>
-                                                                <div display="block" className="Layouts__Row-sc-1yzlivq-0 RoomInfoText__RoomTextInfoWrapperStyled-sc-1bg35eu-0 iRIAvw bjlFDh">
+                                                                <div className="Layouts__Row-sc-1yzlivq-0 RoomInfoText__RoomTextInfoWrapperStyled-sc-1bg35eu-0 iRIAvw bjlFDh">
                                                                     <span className="RoomInfoText__RoomInfoTextStyled-sc-1bg35eu-1 fTPZGc">
                                                                         <div className="RoomFlavorstyles__BulletPointOuter-sc-90vv8b-20 fRdwtL">
                                                                             <span className="RoomFlavorstyles__BulletPoint-sc-90vv8b-21 hBwFYT">
@@ -118,7 +130,7 @@ const StayOptions = ({ val }) => {
                                                             </div>
                                                             <div>
                                                                 <div className="Layouts__Row-sc-1yzlivq-0 RoomInfoText__RoomTextInfoWrapperStyled-sc-1bg35eu-0 iRIAvw tbBNw">
-                                                                    <span color="#d0011b" alignitems="center" className="RoomInfoText__RoomInfoTextStyled-sc-1bg35eu-1 fLeLsQ">
+                                                                    <span color="#d0011b" className="RoomInfoText__RoomInfoTextStyled-sc-1bg35eu-1 fLeLsQ">
                                                                         <div className="RoomFlavorstyles__RoomOptionsIconContainer-sc-90vv8b-34 hCsmZX">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 11" width="0.8rem" height="0.8rem" fill="#d0011b" className="HappyCloseIcon-sc-nbfb2j-0 iRqvzU">
                                                                                 <g fill="none">
@@ -143,7 +155,7 @@ const StayOptions = ({ val }) => {
                                                 </div>
                                                 <div className="RoomFlavorstyles__RoomFlavorColumn-sc-90vv8b-0 gpDZNN">
                                                     <span className="RoomFlavorstyles__OuterBlockWrapper-sc-90vv8b-38 dZPLdY">
-                                                        <div textcolor="#ffffff" bgcolor="#e63148" className="RoomFlavorstyles__PercentageOffWrapperDiv-sc-90vv8b-39 dVZNvc">40 % off</div>
+                                                        <div className="RoomFlavorstyles__PercentageOffWrapperDiv-sc-90vv8b-39 dVZNvc">40 % off</div>
                                                         <span className="RoomFlavorstyles__PercentageLabelStyles-sc-90vv8b-40 eVznBG">
                                                         </span>
                                                     </span>
@@ -171,7 +183,7 @@ const StayOptions = ({ val }) => {
                                                     <div className="RoomFlavorstyles__RoomOptionsBody-sc-90vv8b-4 gXrlaP">
                                                         <div style={{ paddingTop: '11px' }}>
                                                             <div style={{ visibility: 'hidden' }}>
-                                                                <div display="block" className="Layouts__Row-sc-1yzlivq-0 RoomInfoText__RoomTextInfoWrapperStyled-sc-1bg35eu-0 iRIAvw bjlFDh">
+                                                                <div className="Layouts__Row-sc-1yzlivq-0 RoomInfoText__RoomTextInfoWrapperStyled-sc-1bg35eu-0 iRIAvw bjlFDh">
                                                                     <span className="RoomInfoText__RoomInfoTextStyled-sc-1bg35eu-1 fTPZGc">
                                                                         <div className="RoomFlavorstyles__BulletPointOuter-sc-90vv8b-20 fRdwtL">
                                                                             <span className="RoomFlavorstyles__BulletPoint-sc-90vv8b-21 hBwFYT">
@@ -184,7 +196,7 @@ const StayOptions = ({ val }) => {
                                                             </div>
                                                             <div>
                                                                 <div className="Layouts__Row-sc-1yzlivq-0 RoomInfoText__RoomTextInfoWrapperStyled-sc-1bg35eu-0 iRIAvw tbBNw">
-                                                                    <span color="#00b318" alignitems="center" className="RoomInfoText__RoomInfoTextStyled-sc-1bg35eu-1 hqciuS">
+                                                                    <span color="#00b318" className="RoomInfoText__RoomInfoTextStyled-sc-1bg35eu-1 hqciuS">
                                                                         <div className="RoomFlavorstyles__RoomOptionsIconContainer-sc-90vv8b-34 hCsmZX">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 15" fill="#18A160" width="0.8rem" height="0.8rem" className="HappyTickMarkIcon-sc-z2gohj-0 cliXjl">
                                                                                 <path d="M7.712 13.5a1.65 1.65 0 0 1-1.203.669h-.132c-.437 0-.857-.174-1.165-.484l-4.75-4.29a1.648 1.648 0 0 1 2.332-2.33l3.12 2.663a.33.33 0 0 0 .499-.038L13.008.693a1.648 1.648 0 1 1 2.659 1.949z">
@@ -205,7 +217,7 @@ const StayOptions = ({ val }) => {
                                                 </div>
                                                 <div className="RoomFlavorstyles__RoomFlavorColumn-sc-90vv8b-0 gpDZNN">
                                                     <span className="RoomFlavorstyles__OuterBlockWrapper-sc-90vv8b-38 dZPLdY">
-                                                        <div textcolor="#ffffff" bgcolor="#e63148" className="RoomFlavorstyles__PercentageOffWrapperDiv-sc-90vv8b-39 dVZNvc">40 % off</div>
+                                                        <div className="RoomFlavorstyles__PercentageOffWrapperDiv-sc-90vv8b-39 dVZNvc">40 % off</div>
                                                         <span className="RoomFlavorstyles__PercentageLabelStyles-sc-90vv8b-40 eVznBG">
                                                         </span>
                                                     </span>
@@ -241,6 +253,6 @@ const StayOptions = ({ val }) => {
             </section>
         </div>
     );
-}
+};
 
 export default StayOptions;
